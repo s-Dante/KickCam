@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 use App\Models\UserCustomization;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -54,19 +56,44 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'name' => 'string',
+            'father_lastname' => 'string',
+            'mother_lastname' => 'string',
+            'points' => 'integer'
+
         ];
     }
 
-    protected $casts = [
-        'name' => 'string',
-        'father_lastname' => 'string',
-        'mother_lastname' => 'string',
-        'points' => 'unsignedMediumInteger'
-    ];
+    protected function getFullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => "{$this->name} {$this->father->lastname} {$this->mother_lastname}"
+        );
+    }
 
+    protected function getUserName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => "{$this->username}"
+        );
+    }
+
+    protected function getUserPoints(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => "{$this->points}"
+        );
+    }
 
     public function customization(): HasOne
     {
         return $this->hasOne(UserCustomization::class, 'id', 'id');
+    }
+
+    public function badges(): BelongsToMany
+    {
+        return $this->belongsToMany(Badge::class, 'badges')
+                    ->withPivot('earned_at')
+                    ->withTimestamps();
     }
 }

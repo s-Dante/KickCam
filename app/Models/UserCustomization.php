@@ -31,6 +31,28 @@ class UserCustomization extends Model
     ];
 
 
+    // Atributos u codigo para obtener los valores
+    public  function getSkinColor()
+    {
+        return $this->skin_color;
+    }
+
+    public  function getShirtColor()
+    {
+        return $this->shirt_color;
+    }
+
+    public  function getPantsColor()
+    {
+        return $this->pants_color;
+    }
+
+    public  function getAvatarSetupData()
+    {
+        return $this->skin_color;
+    }
+
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id', 'user_id');

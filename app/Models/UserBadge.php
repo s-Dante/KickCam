@@ -12,4 +12,17 @@ class UserBadge extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'earned_at',
+        'badge_id',
+        'user_id',
+    ];
+
+    protected $casts = [
+        'earned_at' => 'dateTime',
+        'badge_id' => 'integer',
+        'user_id'=> 'integer'
+    ];
+
+    //Robustecer bien la relacion
 }
