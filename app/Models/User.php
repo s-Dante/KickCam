@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
+use App\Models\UserCustomization;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -20,8 +23,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'father_lastname',
+        'mother_lastname',
+        'username',
         'email',
         'password',
+        'points',
     ];
 
     /**
@@ -48,5 +55,18 @@ class User extends Authenticatable
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];
+    }
+
+    protected $casts = [
+        'name' => 'string',
+        'father_lastname' => 'string',
+        'mother_lastname' => 'string',
+        'points' => 'unsignedMediumInteger'
+    ];
+
+
+    public function customization(): HasOne
+    {
+        return $this->hasOne(UserCustomization::class, 'id', 'id');
     }
 }

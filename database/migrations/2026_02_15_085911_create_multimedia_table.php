@@ -1,0 +1,33 @@
+<?php
+
+use App\Enums\MultimediaCategory;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('multimedia', function (Blueprint $table) {
+            $table->id();
+            $table->string('file_url');
+            $table->enum('category', [MultimediaCategory::IMAGE, 
+                                    MultimediaCategory::VIDEO, 
+                                    MultimediaCategory::AR]);
+            $table->foreignId('country_id')->constrained('countries', 'id')->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('multimedia');
+    }
+};
