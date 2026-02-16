@@ -1,4 +1,7 @@
 import type { Auth } from '@/types/auth';
+import { PageProps as InertiaPageProps } from '@inertiajs/core';
+import { AxiosInstance } from 'axios';
+import { PageProps as AppPageProps } from './';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {

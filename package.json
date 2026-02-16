@@ -8,7 +8,8 @@
         "dev": "vite",
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
-        "lint": "eslint . --fix"
+        "lint": "eslint . --fix",
+        "dev:all": "concurrently \"php artisan serve --host=localhost --port=8000\" \"vite\""
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",

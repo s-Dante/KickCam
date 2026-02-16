@@ -170,3 +170,20 @@
         @apply bg-background text-foreground;
     }
 }
+
+@layer utilities {
+  .bg-hero-gradient {
+    background: linear-gradient(
+      180deg,
+      #2D4571 0%,
+      #181818 100%
+    );
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
