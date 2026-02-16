@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
@@ -105,4 +105,116 @@ import { store } from '@/routes/register';
             </div>
         </Form>
     </AuthBase>
+</template> -->
+
+
+<script setup lang="ts">
+import { Head, useForm, Link } from '@inertiajs/vue3';
+
+import AuthLayout from '@/layouts/AuthLayout.vue';
+import AuthHeader from '@/components/auth/AuthHeader.vue';
+import AuthFormContainer from '@/components/auth/AuthFormContainer.vue';
+import AuthInput from '@/components/auth/AuthInput.vue';
+import AuthButton from '@/components/auth/AuthButton.vue';
+import AuthSocialButtons from '@/components/auth/AuthSocialButtons.vue';
+
+const form = useForm({
+  name: '',
+  last_name_paterno: '',
+  last_name_materno: '',
+  username: '',
+  email: '',
+  password: '',
+});
+</script>
+
+<template>
+
+  <Head title="Registro" />
+
+  <AuthLayout>
+
+    <!-- Header -->
+    <template #header>
+      <AuthHeader
+        title="Crea tu cuenta"
+        subtitle="Únete a la experiencia de realidad aumentada"
+      />
+    </template>
+
+    <!-- Form -->
+    <form @submit.prevent="form.post('/register')" class="mt-6">
+
+      <AuthFormContainer>
+
+        <!-- Nombre -->
+        <AuthInput
+          name="name"
+          placeholder="Nombre(s)"
+          v-model="form.name"
+        />
+
+        <!-- Apellidos -->
+        <div class="grid grid-cols-2 gap-4">
+          <AuthInput
+            name="last_name_paterno"
+            placeholder="Apellido Paterno"
+            v-model="form.last_name_paterno"
+          />
+
+          <AuthInput
+            name="last_name_materno"
+            placeholder="Apellido Materno"
+            v-model="form.last_name_materno"
+          />
+        </div>
+
+        <!-- Username -->
+        <AuthInput
+          name="username"
+          placeholder="Usuario"
+          v-model="form.username"
+        />
+
+        <!-- Email -->
+        <AuthInput
+          type="email"
+          name="email"
+          placeholder="Correo"
+          v-model="form.email"
+        />
+
+        <!-- Password -->
+        <AuthInput
+          type="password"
+          name="password"
+          placeholder="Contraseña"
+          v-model="form.password"
+        />
+
+        <!-- Submit -->
+        <AuthButton
+          text="Registrarse"
+          :processing="form.processing"
+        />
+
+      </AuthFormContainer>
+
+    </form>
+
+    <!-- Social -->
+    <AuthSocialButtons />
+
+    <!-- Footer -->
+    <div class="mt-12 text-center">
+      <Link
+        href="/login"
+        class="text-white underline text-lg"
+      >
+        ¿Ya tienes cuenta? Inicia sesión
+      </Link>
+    </div>
+
+  </AuthLayout>
+
 </template>

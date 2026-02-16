@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
@@ -107,4 +107,81 @@ defineProps<{
             </div>
         </Form>
     </AuthBase>
+</template> -->
+
+<script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
+import AuthLayout from '@/layouts/AuthLayout.vue';
+import AuthHeader from '@/components/auth/AuthHeader.vue';
+import AuthFormContainer from '@/components/auth/AuthFormContainer.vue';
+import AuthSocialButtons from '@/components/auth/AuthSocialButtons.vue';
+import AuthInput from '@/components/auth/AuthInput.vue';
+import AuthButton from '@/components/auth/AuthButton.vue';
+
+
+import InputError from '@/components/InputError.vue';
+import TextLink from '@/components/TextLink.vue';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Spinner } from '@/components/ui/spinner';
+
+import { emailResetPswd, register } from '@/routes';
+import { store } from '@/routes/login';
+import { request } from '@/routes/password';
+
+
+defineProps<{
+    status?: string;
+    canResetPassword: boolean;
+    canRegister: boolean;
+}>();
+</script>
+
+<template>
+
+    <Head title="Iniciar Sesión" />
+
+    <AuthLayout>
+
+        <template #header>
+            <AuthHeader title="¡Hola, Bienvenido!"
+                subtitle="Inicia sesión para continuar con la experiencia mundialista." />
+        </template>
+
+        <Form v-bind="store.form()" v-slot="{ processing }">
+
+            <AuthFormContainer>
+
+                <AuthInput type="email" name="email" placeholder="Correo" />
+
+                <AuthInput type="password" name="password" placeholder="Contraseña" />
+
+                <div class="flex items-center justify-between text-sm text-white/70">
+
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="remember" />
+                        Recordarme
+                    </label>
+
+                    <TextLink :href="emailResetPswd()" class="underline">
+                        ¿Has olvidado tu contraseña?
+                    </TextLink>
+
+                </div>
+
+                <AuthButton text="Entrar" :processing="processing" />
+
+            </AuthFormContainer>
+
+        </Form>
+
+        <AuthSocialButtons />
+
+        <div class="mt-12 text-center">
+            <TextLink :href="register()" class="underline text-xl">
+                ¿No tienes cuenta? Regístrate
+            </TextLink>
+        </div>
+
+    </AuthLayout>
+
 </template>
